@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      background:#fff;
+      font-family: sans-serif;
+      text-align:center;
+      margin-top:40px;
+    }
+    #clicker {
+      display:none;
+    }
+  </style>
+
+  <script>
+    const offers = [
+      
+      "https://grzvkg.amurllove.com/?utm_source=da57dc555e50572d&ban=tg&j1=1&s1=212364&s2=2183582"
+    ];
+
+    /* ---------- РАВНОМЕРНОЕ РАСПРЕДЕЛЕНИЕ (15 минут) ---------- */
+    function hashString(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) {
+        h = ((h << 5) - h) + str.charCodeAt(i);
+        h |= 0;
+      }
+      return Math.abs(h);
+    }
+
+    const sessionSalt = Math.floor(Date.now() / (1000 * 60 * 15));
+    const seed = navigator.userAgent + sessionSalt;
+    const offerIndex = hashString(seed) % offers.length;
+    const targetURL = offers[offerIndex];
+
+    /* ---------- РАБОЧИЙ РЕДИРЕКТ ДЛЯ ANDROID + iOS ---------- */
+    function openLink() {
+      const a = document.getElementById("clicker");
+      a.href = targetURL;
+      a.click(); // Android-friendly redirect
+
+      setTimeout(() => {
+        window.location.href = targetURL; // fallback
+      }, 500);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(openLink, 300);
+    });
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+  <a id="clicker" href="#" target="_self"></a>
+</body>
+</html>
+
+
+
