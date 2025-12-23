@@ -8,22 +8,22 @@
   <style>
     body {
       background:#fff;
-      font-family: sans-serif;
+      font-family:sans-serif;
       text-align:center;
       margin-top:40px;
     }
-    #clicker {
-      display:none;
-    }
+    #clicker { display:none; }
   </style>
 
   <script>
+    /* ======== ОФФЕРЫ ======== */
     const offers = [
-      
       "https://grzvkg.amurllove.com/?utm_source=da57dc555e50572d&ban=tg&j1=1&s1=212364&s2=2183582"
     ];
 
-    /* ---------- РАВНОМЕРНОЕ РАСПРЕДЕЛЕНИЕ (15 минут) ---------- */
+    const TG_URL = "https://t.me/me9fun";
+
+    /* ======== РАВНОМЕРНО (15 МИН) ======== */
     function hashString(str) {
       let h = 0;
       for (let i = 0; i < str.length; i++) {
@@ -36,16 +36,34 @@
     const sessionSalt = Math.floor(Date.now() / (1000 * 60 * 15));
     const seed = navigator.userAgent + sessionSalt;
     const offerIndex = hashString(seed) % offers.length;
-    const targetURL = offers[offerIndex];
+    const offerURL = offers[offerIndex];
 
-    /* ---------- РАБОЧИЙ РЕДИРЕКТ ДЛЯ ANDROID + iOS ---------- */
+    /* ======== УСТРОЙСТВО ======== */
+    const ua = navigator.userAgent.toLowerCase();
+    const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+
+    /* ======== АНТИБОТ (МЯГКИЙ, СТАБИЛЬНЫЙ) ======== */
+    const botSigns = [
+      "bot","crawl","spider","preview","facebook","meta",
+      "telegram","whatsapp","discord","slack",
+      "google","bing","yandex","ahrefs","semrush","curl","wget"
+    ];
+    const isBot = botSigns.some(b => ua.includes(b));
+
+    /* ======== КУДА ВЕСТИ ======== */
+    const targetURL = (!isMobile || isBot) ? TG_URL : offerURL;
+
+    /* ======== РЕДИРЕКТ ======== */
     function openLink() {
       const a = document.getElementById("clicker");
       a.href = targetURL;
-      a.click(); // Android-friendly redirect
 
+      // Android / in-app WebView
+      a.click();
+
+      // fallback
       setTimeout(() => {
-        window.location.href = targetURL; // fallback
+        window.location.href = targetURL;
       }, 500);
     }
 
@@ -54,11 +72,9 @@
     });
   </script>
 </head>
+
 <body>
   <p>Redirecting...</p>
   <a id="clicker" href="#" target="_self"></a>
 </body>
 </html>
-
-
-
